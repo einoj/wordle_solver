@@ -1,0 +1,3 @@
+import wordlist
+
+echo words
