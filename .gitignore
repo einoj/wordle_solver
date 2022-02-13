@@ -1,0 +1,7 @@
+*.swp
+nimcache
+outputGotten.txt
+testresults
+tests/megatest
+tests/megatest.nim
+wordle_solver
