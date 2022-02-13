@@ -17,9 +17,10 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      - name: Build and run the solver 
+      - name: Build and test the solver 
         run: |
           brew install nim
           nim c wordle_solver.nim
-          ./wordle_solver
+          testament all
+          
 

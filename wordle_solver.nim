@@ -1,7 +1,7 @@
-import std/[strformat, sequtils, tables, lists, strutils]
+import std/[sequtils, tables, lists]
 import wordlist
 
-proc get_top_five_letters(wordseq: seq[string]): seq[char] =
+proc get_top_five_letters*(wordseq: seq[string]): seq[char] =
   var alphabet = initCountTable[char]()
   for word in wordseq:
     for letter in word:
@@ -10,7 +10,7 @@ proc get_top_five_letters(wordseq: seq[string]): seq[char] =
   result =  toSeq(alphabet.keys)[0..4]
 
 
-proc get_words_containing_letters(letters: seq[char], wordseq: seq[string]): DoublyLinkedList[string] =
+proc get_words_containing_letters*(letters: seq[char], wordseq: seq[string]): DoublyLinkedList[string] =
   var list = initDoublyLinkedList[string]()
   for word in wordseq:
     var count = 0
@@ -25,7 +25,7 @@ proc get_words_containing_letters(letters: seq[char], wordseq: seq[string]): Dou
 
 ## remove words containing any gray letters, remove words NOT containing yellow letters
 ## and remove words not containing green letter 'key' in position 'value' of word
-proc update_word_list(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: TableRef[char, int], words: var DoublyLinkedList[string]) =
+proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: TableRef[char, int], words: var DoublyLinkedList[string]) =
   for word in nodes(words):
     for letter in gray_letters:
       if letter in word.value:
@@ -36,13 +36,3 @@ proc update_word_list(gray_letters: seq[char],  yellow_letters: seq[char], green
     for key in keys(green_letters):
       if not (word.value[green_letters[key]] == key):
         words.remove(word)
-
-let top_five = get_top_five_letters(words)
-echo top_five
-echo get_words_containing_letters(top_five[0..3], words)
-var wordllist = words.toDoublyLinkedList
-var green_letters = newTable[char, int]({'a': 2, 'e':4})
-let gray_letters = @['b','d','f','g','h','i','j','k','l','m','o','p','q','s','t','u','v','x','y','z']
-update_word_list(gray_letters, @['c','r'], green_letters, wordllist)
-echo wordllist
-
