@@ -13,13 +13,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    container: nimlang/nim
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
       - name: Build and test the solver 
         run: |
-          brew install nim
           nim c wordle_solver.nim
           testament all
           
