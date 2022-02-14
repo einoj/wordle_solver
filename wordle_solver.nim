@@ -1,4 +1,4 @@
-import std/[sequtils, tables, lists]
+import std/[sequtils, tables, lists, strformat, strutils, rdstdin]
 import wordlist
 
 proc get_top_five_letters*(wordseq: seq[string]): seq[char] =
@@ -36,3 +36,19 @@ proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], gree
     for key in keys(green_letters):
       if not (word.value[green_letters[key]] == key):
         words.remove(word)
+
+proc get_grayyellow_user_input(gray: bool = false): seq =
+    var line: string
+    var color: string = "yellow"
+    if gray:
+      color =  "gray"
+    let ok = readLineFromStdin(fmt"Enter {color} letters: ", line)
+    result = line.rsplit(" ")
+    
+  
+proc get_green_user_input*():  TableRef[char, int] =
+    result = newTable[char, int]({'a': 2, 'e':4})
+
+#while wordllist.toSeq.len > 1:
+echo  get_grayyellow_user_input(true)
+echo  get_green_user_input()
