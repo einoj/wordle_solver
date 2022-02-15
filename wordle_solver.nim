@@ -1,4 +1,5 @@
 import std/[sequtils, tables, lists, strformat, strutils, rdstdin]
+import parseutils
 import wordlist
 
 proc get_top_five_letters*(wordseq: seq[string]): seq[char] =
@@ -46,8 +47,19 @@ proc get_grayyellow_user_input(gray: bool = false): seq =
     result = line.rsplit(" ")
     
   
-proc get_green_user_input*():  TableRef[char, int] =
-    result = newTable[char, int]({'a': 2, 'e':4})
+proc get_green_user_input*():  Table[char, int] =
+    var letters: string
+    var positions: string
+    let ok = readLineFromStdin(fmt"Enter green letters: ", letters)
+    let ok2 = readLineFromStdin(fmt"Enter green letter positions: ", positions)
+    
+    var green_letters = initTable[char, int]()
+
+    for pairs in zip(letters, positions):
+        let (letter, pos) = pairs
+        if letter >= 'a' and letter <= 'z':
+          green_letters[letter] = int(pos) - int('0')
+    result = green_letters
 
 #while wordllist.toSeq.len > 1:
 echo  get_grayyellow_user_input(true)
