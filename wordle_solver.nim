@@ -62,5 +62,7 @@ proc get_green_user_input*():  Table[char, int] =
     result = green_letters
 
 #while wordllist.toSeq.len > 1:
-echo  get_grayyellow_user_input(true)
-echo  get_green_user_input()
+var wordllist = words.toDoublyLinkedList
+update_word_list(get_grayyellow_user_input(true),get_grayyellow_user_input(false),get_green_user_input(),wordllist) 
+echo wordllist
+
