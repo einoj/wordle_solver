@@ -26,7 +26,7 @@ proc get_words_containing_letters*(letters: seq[char], wordseq: seq[string]): Do
 
 ## remove words containing any gray letters, remove words NOT containing yellow letters
 ## and remove words not containing green letter 'key' in position 'value' of word
-proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: TableRef[char, int], words: var DoublyLinkedList[string]) =
+proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: Table[char, int], words: var DoublyLinkedList[string]) =
   for word in nodes(words):
     for letter in gray_letters:
       if letter in word.value:
@@ -38,13 +38,13 @@ proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], gree
       if not (word.value[green_letters[key]] == key):
         words.remove(word)
 
-proc get_grayyellow_user_input(gray: bool = false): seq =
+proc get_grayyellow_user_input(gray: bool = false): seq[char] =
     var line: string
     var color: string = "yellow"
     if gray:
       color =  "gray"
     let ok = readLineFromStdin(fmt"Enter {color} letters: ", line)
-    result = line.rsplit(" ")
+    result = toSeq(line.strip.items)
     
   
 proc get_green_user_input*():  Table[char, int] =
