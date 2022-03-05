@@ -54,5 +54,5 @@ for word in words:
   total_guesses += guess_cnt
 
 let average_guesses = total_guesses/words.len
-echo fmt"Average guesses: {average_guesses}, Total guesses: {total_guesses}"
+#echo fmt"Average guesses: {average_guesses}, Total guesses: {total_guesses}"
 assert average_guesses < 4.3
