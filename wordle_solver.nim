@@ -65,3 +65,6 @@ proc get_green_user_input*():  Table[int, char] =
         if letter >= 'a' and letter <= 'z':
           green_letters[int(pos) - int('0')] = letter 
     result = green_letters
+
+echo fasitwords.len
+echo guesswords.len
