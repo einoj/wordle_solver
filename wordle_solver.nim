@@ -66,5 +66,3 @@ proc get_green_user_input*():  Table[int, char] =
           green_letters[int(pos) - int('0')] = letter 
     result = green_letters
 
-echo fasitwords.len
-echo guesswords.len
