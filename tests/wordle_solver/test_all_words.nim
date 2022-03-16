@@ -19,7 +19,7 @@ var yellow: seq[char] = @[]
 var green = initTable[int, char]()
 var ret : bool
 
-var wordllist = guesswords.toDoublyLinkedList
+var wordllist : DoublyLinkedList[string]
 var wordseq : seq[string]
 var top_five : seq[char]
 var top_words : seq[string]
@@ -33,7 +33,7 @@ for word in fasitwords:
   gray = @[]
   yellow = @[]
   green.clear
-  wordllist = guesswords.toDoublyLinkedList
+  wordllist = concat(fasitwords, guesswords).toDoublyLinkedList
   #echo fmt"fasit = {word}"
   while true:
     wordseq = wordllist.toSeq
@@ -46,16 +46,17 @@ for word in fasitwords:
     if top_words.len > 0:
       index = rand(top_words.len-1)
     guess_cnt += 1
+    #echo fmt"top words: {top_words}"
     #echo fmt"guessing {top_words[index]}"
     ret = match(top_words[index], word, gray, yellow, green)
     if ret:
       break
     update_word_list(gray, yellow, green, wordllist)
-  #echo fmt"Answer: {wordllist} guessed in {guess_cnt} tries"
+  #echo fmt"Answer: {top_words[index]} guessed in {guess_cnt} tries"
   total_guesses += guess_cnt
   if guess_cnt > max_guesses:
     max_guesses = guess_cnt
 
 let average_guesses = total_guesses/fasitwords.len
 #echo fmt"Average guesses: {average_guesses}, Total guesses: {total_guesses}, max guesses: {max_guesses}"
-assert average_guesses < 4.3
+assert average_guesses < 5.4
