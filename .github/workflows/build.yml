@@ -21,6 +21,9 @@ jobs:
       - name: Build and test the solver 
         run: |
           nim c wordle_solver.nim
-          testament all
+          testament r tests/wordle_solver/test_get_top_five_letters
+          testament r tests/wordle_solver/test_get_words_containing_letters
+          testament r tests/wordle_solver/test_update_word_list
+          testament r tests/wordle_solver/test_all_words
           
 
