@@ -29,8 +29,11 @@ proc get_words_containing_letters*(letters: seq[char], wordseq: seq[string]): Do
 
 ## remove words containing any gray letters, remove words NOT containing yellow letters
 ## and remove words not containing green letter 'key' in position 'value' of word
-proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: Table[int, char], words: var DoublyLinkedList[string]) =
+proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: Table[int, char], words: var DoublyLinkedList[string], wronguess: string = "") =
   for word in nodes(words):
+    if word.value == wronguess:
+      words.remove(word)
+      continue
     for letter in gray_letters:
       if letter in word.value:
         words.remove(word)

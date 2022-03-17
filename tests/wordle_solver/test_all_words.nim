@@ -27,11 +27,13 @@ var index: int
 var guess_cnt : int = 0
 var total_guesses = 0
 var max_guesses = 0
+var guess: string
 
 for word in fasitwords:
   guess_cnt = 0
   gray = @[]
   yellow = @[]
+  var guesses: seq[string] = @[]
   green.clear
   wordllist = concat(fasitwords, guesswords).toDoublyLinkedList
   #echo fmt"fasit = {word}"
@@ -45,18 +47,22 @@ for word in fasitwords:
       j -= 1
     if top_words.len > 0:
       index = rand(top_words.len-1)
+    guess =  top_words[index]
     guess_cnt += 1
     #echo fmt"top words: {top_words}"
     #echo fmt"guessing {top_words[index]}"
-    ret = match(top_words[index], word, gray, yellow, green)
+    guesses.add(guess)
+    ret = match(guess, word, gray, yellow, green)
     if ret:
       break
-    update_word_list(gray, yellow, green, wordllist)
-  #echo fmt"Answer: {top_words[index]} guessed in {guess_cnt} tries"
+    update_word_list(gray, yellow, green, wordllist, guess)
+  if guess_cnt > 10:
+    echo fmt"Guesses: {guesses}"
+    echo fmt"Answer: {top_words[index]} guessed in {guess_cnt} tries"
   total_guesses += guess_cnt
   if guess_cnt > max_guesses:
     max_guesses = guess_cnt
 
 let average_guesses = total_guesses/fasitwords.len
-#echo fmt"Average guesses: {average_guesses}, Total guesses: {total_guesses}, max guesses: {max_guesses}"
+echo fmt"Average guesses: {average_guesses}, Total guesses: {total_guesses}, max guesses: {max_guesses}"
 assert average_guesses < 5.4
