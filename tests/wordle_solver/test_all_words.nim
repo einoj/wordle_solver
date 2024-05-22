@@ -3,19 +3,19 @@ import ../../wordle_solver
 import std/[strutils, sequtils, strformat, tables, random, lists]
 
 
-proc match(guess: string, fasit: string, gray: var  seq[char],  yellow: var seq[char], green: var Table[int, char]): bool =
+proc match(guess: string, fasit: string, gray: var  seq[char],  yellow: var Table[int, char], green: var Table[int, char]): bool =
   for i,letter in guess:
     if letter == fasit[i]:
       green[i] = letter
     elif not (letter in fasit):
       gray.add(letter)
     elif letter in fasit:
-      yellow.add(letter)
+      yellow[i] = letter
   if len(green) == 5:
     result = true
 
 var gray: seq[char] = @[]
-var yellow: seq[char] = @[]
+var yellow = initTable[int, char]()
 var green = initTable[int, char]()
 var ret : bool
 
@@ -32,7 +32,7 @@ var guess: string
 for word in fasitwords:
   guess_cnt = 0
   gray = @[]
-  yellow = @[]
+  yellow.clear
   var guesses: seq[string] = @[]
   green.clear
   wordllist = concat(fasitwords, guesswords).toDoublyLinkedList
@@ -56,7 +56,7 @@ for word in fasitwords:
     if ret:
       break
     update_word_list(gray, yellow, green, wordllist, guess)
-  if guess_cnt > 10:
+  if guess_cnt > 10 or top_words[index] == "exalt":
     echo fmt"Guesses: {guesses}"
     echo fmt"Answer: {top_words[index]} guessed in {guess_cnt} tries"
   total_guesses += guess_cnt

@@ -28,8 +28,9 @@ proc get_words_containing_letters*(letters: seq[char], wordseq: seq[string]): Do
 
 
 ## remove words containing any gray letters, remove words NOT containing yellow letters
-## and remove words not containing green letter 'key' in position 'value' of word
-proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], green_letters: Table[int, char], words: var DoublyLinkedList[string], wronguess: string = "") =
+## remove words not containing green letter 'key' in position 'value' of word
+## remove words with yellow letters in yellow position
+proc update_word_list*(gray_letters: seq[char],  yellow_letters: Table[int, char], green_letters: Table[int, char], words: var DoublyLinkedList[string], wronguess: string = "") =
   for word in nodes(words):
     if word.value == wronguess:
       words.remove(word)
@@ -37,10 +38,13 @@ proc update_word_list*(gray_letters: seq[char],  yellow_letters: seq[char], gree
     for letter in gray_letters:
       if letter in word.value:
         words.remove(word)
-    for letter in yellow_letters:
-      if not (letter in word.value):
+        break
+    for key in keys(yellow_letters):
+      if not (yellow_letters[key] in word.value):
         words.remove(word)
         break
+      if (word.value[key] == yellow_letters[key]):
+        words.remove(word)
     for key in keys(green_letters):
       if not (word.value[key] == green_letters[key]):
         words.remove(word)
@@ -66,6 +70,6 @@ proc get_green_user_input*():  Table[int, char] =
     for pairs in zip(letters, positions):
         let (letter, pos) = pairs
         if letter >= 'a' and letter <= 'z':
-          green_letters[int(pos) - int('0')] = letter 
+          green_letters[int(pos) - int('0')] = letter
     result = green_letters
 
